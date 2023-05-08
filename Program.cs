@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,16 @@ namespace Snake
     {
         static void Main(string[] args)
         {
-            int x1 = 1;
-            int y1 = 3;
-            char sym1 = '*';;
+            Point p1 = new Point(1, 3, '*');
+            p1.Draw();
 
-            Draw(x1, y1, sym1);
+            Point p2 = new Point(4, 5, '#');
+            p2.Draw();
 
-            int x2 = 4;
-            int y2 = 5;
-            char sym2 = '#';
-
-            Draw(x2, y2, sym2);
+            HorizontalLine line = new HorizontalLine(5, 10, 1, '+');
+            line.Drow();
 
             Console.ReadLine();
-        }
-
-        static void Draw(int x, int y, char sym)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.Write(sym);
         }
     }
 }
