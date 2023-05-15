@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +12,123 @@ namespace Snake
     {
         static void Main(string[] args)
         {
-            int x1 = 1;
-            int y1 = 3;
-            char sym1 = '*';;
+            /*VerticalLine vl = new VerticalLine(0, 10, 5, '%');
+            Draw(vl);
 
-            Draw(x1, y1, sym1);
+            Point p = new Point(4, 5, '*');
+            Figure fSnake = new Snake(p, 4, Direction.RIGHT);
+            Draw(fSnake);
+            Snake snake = (Snake)fSnake;
 
-            int x2 = 4;
-            int y2 = 5;
-            char sym2 = '#';
+            HorizontalLine hl = new HorizontalLine(0, 5, 6, '&');
 
-            Draw(x2, y2, sym2);
+            List<Figure> figures = new List<Figure>();
+            figures.Add(fSnake);
+            figures.Add(hl);
+            figures.Add(vl);
 
+            foreach (var f in figures)
+            {
+                f.Draw();
+            }*/
+
+            /*static void Draw(Figure figure)
+            {
+                figure.Draw();
+            }*/
+
+            Console.SetWindowSize(80, 30);
+
+            Walls walls = new Walls(80, 30);
+            walls.Draw();
+
+            Point p = new Point(4, 5, '*');
+            Snake snake = new Snake(p, 6, Direction.RIGHT);
+            snake.Draw();
+
+            FoodCreator foodCreator = new FoodCreator(80, 25, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
+
+            while (true)
+            {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    break;
+                }
+                if (snake.Eat(food))
+                {
+                    food = foodCreator.CreateFood();
+                    food.Draw();
+                }
+                else
+                {
+                    snake.Move();
+                }
+                Thread.Sleep(100);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    snake.HandLeKey(key.Key);
+                }
+                /*HorizontalLine Upline = new HorizontalLine(0, 78, 0, '*');
+                HorizontalLine Downline = new HorizontalLine(0, 78, 24, '*');
+                VerticalLine Leftline = new VerticalLine(0, 24, 0, '*');
+                VerticalLine Rightline = new VerticalLine(0, 24, 78, '*');
+                Upline.Draw();
+                Downline.Draw();
+                Leftline.Draw();
+                Rightline.Draw();
+                Point p = new Point(40, 10, '+');
+                Snake snake = new Snake(p, 6,Direction.RIGHT);
+                snake.Draw();
+                FoodCreator foodCreator = new FoodCreator(80, 25, '$');
+                Point food = foodCreator.CreateFood();
+                food.Draw();
+
+                while (true)
+                {
+                    if (snake.Eat(food))
+                    {
+                        food = foodCreator.CreateFood();
+                        food.Draw();
+                    }
+                    else 
+                    {
+                        snake.Move();
+                    }
+                    Thread.Sleep(100);
+
+                    if (Console.KeyAvailable)
+                    {
+                        ConsoleKeyInfo key = Console.ReadKey();
+                        snake.HandLeKey(key.Key);
+                    }
+                    Thread.Sleep( 100);
+                    snake.Move();*/
+            }
+            WriteGameOver();
             Console.ReadLine();
+
         }
 
-        static void Draw(int x, int y, char sym)
+        static void WriteGameOver()
         {
-            Console.SetCursorPosition(x, y);
-            Console.Write(sym);
+            int xOffset = 25;
+            int yOffset = 8;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(xOffset, yOffset++);
+            WriteText("============================", xOffset, yOffset++);
+            WriteText("         MÄNG LÄBI", xOffset + 1, yOffset++);
+            yOffset++;
+            WriteText("Autor: Matvei Kulakovski", xOffset + 2, yOffset++);
+            WriteText("============================", xOffset, yOffset++);
+        }
+
+        static void WriteText(String text, int xOffset, int yOffset)
+        {
+            Console.SetCursorPosition(xOffset, yOffset);
+            Console.WriteLine(text);
         }
     }
 }
