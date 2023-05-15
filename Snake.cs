@@ -5,14 +5,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Snake
 {
     internal class Snake : Figure
     {
         Direction direction;
-        public Snake(Point tail, int length, Direction direction)
+        public Snake(Point tail, int length, Direction _direction)
         {
+            direction = _direction;
             pList = new List<Point>();
             for (int i = 0; i < length; i++)
             {
@@ -26,7 +28,7 @@ namespace Snake
         {
             Point tail = pList.First();
             pList.Remove(tail);
-            Point head = GetNextPoint(Direction.DOWN);
+            Point head = GetNextPoint(direction);
             pList.Add(head);
 
             tail.Clear();
@@ -39,6 +41,18 @@ namespace Snake
             Point nextPoint = new Point(head);
             nextPoint.Move(1, direction);
             return nextPoint;
+        }
+
+        public void HandLeKey(ConsoleKey key)
+        {
+            if (key == ConsoleKey.LeftArrow)
+                direction = Direction.LEFT;
+            else if (key == ConsoleKey.RightArrow)
+                direction = Direction.RIGHT;
+            else if (key == ConsoleKey.DownArrow)
+                direction = Direction.DOWN;
+            else if (key == ConsoleKey.UpArrow)
+                direction = Direction.UP;
         }
     }
 }
