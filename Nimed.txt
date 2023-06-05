@@ -1,0 +1,5 @@
+Matvei: 10
+Anna: 5
+sass: 0
+sass: 0
+mama: 0
